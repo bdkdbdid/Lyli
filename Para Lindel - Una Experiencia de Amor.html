@@ -1,1 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Lindel - Mi Amor Hermoso ❤️</title>
+    <!-- Tailwind CSS for modern utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        romantic: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                            900: '#881337',
+                            950: '#4c0519',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Smooth heartbeat animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.4)); }
+            15% { transform: scale(1.08); filter: drop-shadow(0 0 35px rgba(244, 63, 94, 0.8)); }
+            30% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.4)); }
+            45% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(244, 63, 94, 0.6)); }
+            60% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.4)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.4)); }
+        }
+
+        .animate-heartbeat {
+            animation: heartbeat 1.8s infinite ease-in-out;
+        }
+
+        /* Floating background elements */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.6) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.8;
+            }
+            85% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(251, 113, 133, 0.6);
+            animation: floatUp linear infinite;
+            pointer-events: none;
+        }
+
+        /* Twinkling star animation */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle infinite ease-in-out;
+        }
+
+        /* Glassmorphism card */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(251, 113, 133, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Touch interaction particles */
+        @keyframes burst {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.2);
+                opacity: 0;
+            }
+        }
+
+        .touch-particle {
+            position: absolute;
+            pointer-events: none;
+            animation: burst 1s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        /* Fade transitions */
+        .fade-in {
+            animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); filter: blur(0); }
+            to { opacity: 0; transform: translateY(-20px); filter: blur(5px); }
+        }
+
+        /* Custom scrollbar hiding */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen w-screen overflow-hidden flex flex-col items-center justify-center bg-slate-950">
+
+    <!-- Starry background container -->
+    <div id="stars-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+    <div id="floating-hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- Ambient glowing nebulas -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-rose-600/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-80 h-80 bg-pink-600/15 rounded-full blur-[100px] pointer-events-none z-0"></div>
+    <div class="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-900/20 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- SCENE 1: CINEMATIC INTRO -->
+    <div id="scene-intro" class="relative z-10 flex flex-col items-center justify-center text-center px-6 max-w-md w-full transition-all duration-1000">
+        <div class="glass-panel p-8 md:p-10 rounded-3xl w-full flex flex-col items-center space-y-6 relative overflow-hidden">
+            <!-- Subtle internal glow -->
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-rose-500/20 rounded-full blur-2xl"></div>
+            
+            <div id="intro-step-1" class="space-y-3 transition-all duration-700">
+                <span class="text-rose-400 text-sm tracking-widest uppercase font-semibold">Experiencia Romántica</span>
+                <h1 class="text-3xl md:text-4xl font-cinzel font-bold text-white tracking-wide">
+                    Lindel... <span class="text-rose-500 inline-block animate-pulse">❤️</span>
+                </h1>
+            </div>
+
+            <div id="intro-step-2" class="space-y-2 opacity-0 transform translate-y-4 transition-all duration-700 hidden">
+                <p class="text-slate-300 text-lg md:text-xl font-light leading-relaxed">
+                    Hice algo especialmente para ti.
+                </p>
+            </div>
+
+            <div id="intro-step-3" class="space-y-6 opacity-0 transform translate-y-4 transition-all duration-700 hidden pt-2">
+                <p class="text-rose-200/90 text-base md:text-lg font-medium">
+                    ¿Quieres descubrirlo?
+                </p>
+                <button onclick="startMainExperience()" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 bg-gradient-to-r from-rose-500 to-pink-600 rounded-full hover:from-rose-600 hover:to-pink-700 shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:scale-105 active:scale-95 w-full">
+                    <span class="absolute inset-0 w-full h-full rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <span class="relative flex items-center space-x-2">
+                        <span>Abrir mi sorpresa</span>
+                        <span class="text-xl">❤️</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 2: GIANT HEART & COMPLIMENTS -->
+    <div id="scene-heart" class="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full h-screen max-w-lg hidden opacity-0 transition-opacity duration-1000">
+        
+        <!-- Compliments Floating/Fading Area -->
+        <div id="compliment-container" class="absolute top-12 left-0 right-0 px-6 z-20 flex justify-center pointer-events-none min-h-[70px] items-center">
+            <div id="compliment-box" class="glass-panel px-6 py-3 rounded-2xl opacity-0 transform translate-y-[-10px] transition-all duration-700 text-rose-100 text-sm md:text-base font-medium tracking-wide shadow-rose-500/10 border-rose-500/30">
+                <!-- Compliment text inserted via JS -->
+            </div>
+        </div>
+
+        <!-- Giant Beating Heart Container -->
+        <div class="relative flex items-center justify-center my-auto">
+            <!-- Outer Glow Rings -->
+            <div class="absolute w-64 h-64 md:w-80 md:h-80 bg-rose-500/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute w-48 h-48 md:w-60 md:h-60 bg-pink-500/30 rounded-full blur-2xl animate-heartbeat"></div>
+
+            <!-- SVG Giant Realistic Heart -->
+            <div class="relative animate-heartbeat z-10 filter drop-shadow-[0_0_35px_rgba(244,63,94,0.6)]">
+                <svg class="w-56 h-56 md:w-72 md:h-72 text-gradient" viewBox="0 0 24 24" fill="url(#heartGradient)" stroke="#fb7185" stroke-width="0.3">
+                    <defs>
+                        <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fb7185" />
+                            <stop offset="50%" stop-color="#f43f5e" />
+                            <stop offset="100%" stop-color="#9f1239" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+
+                <!-- Central Text Inside Heart -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-20">
+                    <h2 class="text-white font-cinzel font-bold text-xl md:text-2xl tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        TE AMO LINDEL
+                    </h2>
+                    <p class="text-rose-200 text-xs md:text-sm font-medium tracking-widest mt-1 uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        MI AMOR HERMOSO ❤️
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hint for user -->
+        <div class="absolute bottom-10 left-0 right-0 text-center pointer-events-none">
+            <p class="text-xs text-rose-300/60 tracking-widest uppercase animate-pulse">Toca la pantalla con amor ✨</p>
+        </div>
+    </div>
+
+    <!-- SCENE 3: EMOTIONAL LETTER -->
+    <div id="scene-letter" class="relative z-10 flex flex-col items-center justify-center text-center px-6 max-w-md w-full h-screen hidden opacity-0 transition-opacity duration-1000">
+        <div class="glass-panel p-8 md:p-10 rounded-3xl w-full space-y-6 relative overflow-hidden shadow-2xl">
+            <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-pink-500/20 rounded-full blur-2xl"></div>
+
+            <div id="letter-content" class="space-y-4 text-slate-200 text-base md:text-lg font-light leading-relaxed min-h-[220px] flex flex-col justify-center items-center">
+                <!-- Letter paragraphs injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENE 4: GRAND FINALE -->
+    <div id="scene-finale" class="relative z-10 flex flex-col items-center justify-center text-center px-6 max-w-lg w-full h-screen hidden opacity-0 transition-opacity duration-1000">
+        <div id="finale-stage" class="flex flex-col items-center justify-center space-y-6">
+            <!-- Growing final heart container -->
+            <div id="growing-heart-wrapper" class="relative transition-all duration-1000 transform scale-50 opacity-0">
+                <div class="absolute inset-0 bg-rose-500/30 rounded-full blur-3xl animate-pulse"></div>
+                <div class="animate-heartbeat filter drop-shadow-[0_0_50px_rgba(244,63,94,0.8)]">
+                    <svg class="w-48 h-48 md:w-64 md:h-64 text-gradient" viewBox="0 0 24 24" fill="url(#heartGradientFinal)">
+                        <defs>
+                            <linearGradient id="heartGradientFinal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff758c" />
+                                <stop offset="100%" stop-color="#ff7eb3" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Final texts -->
+            <div id="finale-texts" class="space-y-3 opacity-0 transform translate-y-6 transition-all duration-1000">
+                <h1 class="text-3xl md:text-5xl font-cinzel font-bold text-white tracking-wider drop-shadow-[0_0_20px_rgba(255,117,140,0.6)]">
+                    ❤️ TE AMO LINDEL ❤️
+                </h1>
+                <p class="text-rose-200 text-lg md:text-xl font-medium tracking-widest uppercase">
+                    MI AMOR HERMOSO
+                </p>
+                <div class="pt-6">
+                    <button onclick="restartExperience()" class="px-6 py-3 text-xs tracking-widest uppercase font-semibold text-rose-300 bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/30 rounded-full transition-all shadow-lg">
+                        Volver a vivir este momento ✨
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- BACKGROUND GENERATION (STARS & FLOATING HEARTS) ---
+        function initBackground() {
+            const starsContainer = document.getElementById('stars-container');
+            const starCount = 60;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 2.5 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starsContainer.appendChild(star);
+            }
+
+            const heartsContainer = document.getElementById('floating-hearts-container');
+            setInterval(() => {
+                if (heartsContainer.childElementCount < 15) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = `${Math.random() * 90 + 5}%`;
+                    const size = Math.random() * 14 + 10;
+                    heart.style.fontSize = `${size}px`;
+                    const duration = Math.random() * 6 + 6;
+                    heart.style.animationDuration = `${duration}s`;
+                    heartsContainer.appendChild(heart);
+                    setTimeout(() => {
+                        heart.remove();
+                    }, duration * 1000);
+                }
+            }, 800);
+        }
+
+        // --- INTRO SEQUENCE STEPS ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initBackground();
+            
+            // Step 1 to Step 2 timer
+            setTimeout(() => {
+                const step2 = document.getElementById('intro-step-2');
+                step2.classList.remove('hidden');
+                step2.classList.add('fade-in');
+            }, 1800);
+
+            // Step 2 to Step 3 timer
+            setTimeout(() => {
+                const step3 = document.getElementById('intro-step-3');
+                step3.classList.remove('hidden');
+                step3.classList.add('fade-in');
+            }, 3600);
+        });
+
+        // --- SCENE TRANSITION: INTRO -> HEART ---
+        function startMainExperience() {
+            const introScene = document.getElementById('scene-intro');
+            introScene.classList.add('fade-out');
+
+            setTimeout(() => {
+                introScene.style.display = 'none';
+                const heartScene = document.getElementById('scene-heart');
+                heartScene.classList.remove('hidden');
+                heartScene.classList.add('fade-in');
+
+                // Begin Compliments Cycle
+                startComplimentsSequence();
+            }, 800);
+        }
+
+        // --- COMPLIMENTS ARRAY & SEQUENCE ---
+        const compliments = [
+            "Eres una persona increíble.",
+            "Me encanta la forma tan bonita en que eres.",
+            "Eres alguien muy especial para mí.",
+            "Me encanta poder compartir momentos contigo.",
+            "Tienes una forma muy especial de hacerme sonreír.",
+            "Admiro muchas cosas de ti.",
+            "Gracias por existir y por ser tú.",
+            "Mi niño hermoso, eres muy especial para mí.",
+            "Quiero seguir creando recuerdos bonitos contigo.",
+            "Me alegra muchísimo haberte encontrado."
+        ];
+
+        let complimentInterval;
+
+        function startComplimentsSequence() {
+            let index = 0;
+            const box = document.getElementById('compliment-box');
+
+            function showNextCompliment() {
+                if (index < compliments.length) {
+                    box.textContent = compliments[index];
+                    box.classList.remove('opacity-0', 'translate-y-[-10px]');
+                    box.classList.add('opacity-100', 'translate-y-0');
+
+                    setTimeout(() => {
+                        box.classList.remove('opacity-100', 'translate-y-0');
+                        box.classList.add('opacity-0', 'translate-y-[-10px]');
+                    }, 3500);
+
+                    index++;
+                } else {
+                    clearInterval(complimentInterval);
+                    // Transition to Emotional Letter after compliments finish
+                    setTimeout(transitionToLetter, 1500);
+                }
+            }
+
+            // Show first immediately
+            showNextCompliment();
+            complimentInterval = setInterval(showNextCompliment, 4500);
+        }
+
+        // --- TRANSITION: HEART -> LETTER ---
+        function transitionToLetter() {
+            const heartScene = document.getElementById('scene-heart');
+            heartScene.classList.remove('fade-in');
+            heartScene.classList.add('fade-out');
+
+            setTimeout(() => {
+                heartScene.style.display = 'none';
+                const letterScene = document.getElementById('scene-letter');
+                letterScene.classList.remove('hidden');
+                letterScene.classList.add('fade-in');
+
+                startLetterSequence();
+            }, 800);
+        }
+
+        // --- LETTER DIALOGUE SEQUENCE ---
+        function startLetterSequence() {
+            const container = document.getElementById('letter-content');
+            
+            const lines = [
+                { text: "Lindel...", delay: 500, size: "text-xl font-cinzel text-rose-300" },
+                { text: "Quizás no existan palabras suficientes para explicar todo el cariño que siento por ti.", delay: 3000, size: "text-base text-slate-200" },
+                { text: "Por eso quise hacerte algo que pudieras mirar y recordar que eres muy especial para mí.", delay: 6500, size: "text-base text-slate-200" },
+                { text: "Gracias por ser tú. ❤️", delay: 10500, size: "text-lg font-medium text-rose-300" },
+                { text: "Te amo muchísimo.", delay: 14000, size: "text-2xl font-cinzel font-bold text-white tracking-wide" }
+            ];
+
+            lines.forEach((lineData) => {
+                setTimeout(() => {
+                    container.innerHTML = `<div class="fade-in ${lineData.size}">${lineData.text}</div>`;
+                }, lineData.delay);
+            });
+
+            // Transition to Grand Finale after letter finishes
+            setTimeout(() => {
+                transitionToFinale();
+            }, 18500);
+        }
+
+        // --- TRANSITION: LETTER -> GRAND FINALE ---
+        function transitionToFinale() {
+            const letterScene = document.getElementById('scene-letter');
+            letterScene.classList.remove('fade-in');
+            letterScene.classList.add('fade-out');
+
+            setTimeout(() => {
+                letterScene.style.display = 'none';
+                const finaleScene = document.getElementById('scene-finale');
+                finaleScene.classList.remove('hidden');
+                finaleScene.classList.add('fade-in');
+
+                // Trigger growing heart animation
+                setTimeout(() => {
+                    const growingWrapper = document.getElementById('growing-heart-wrapper');
+                    growingWrapper.classList.remove('scale-50', 'opacity-0');
+                    growingWrapper.classList.add('scale-100', 'opacity-100');
+
+                    // Trigger finale text appearance
+                    setTimeout(() => {
+                        const finaleTexts = document.getElementById('finale-texts');
+                        finaleTexts.classList.remove('opacity-0', 'translate-y-6');
+                        finaleTexts.classList.add('opacity-100', 'translate-y-0');
+
+                        // Extra burst of floating celebratory hearts
+                        triggerMassiveHeartBurst();
+                    }, 1200);
+                }, 400);
+            }, 800);
+        }
+
+        // --- MASSIVE HEART BURST FOR FINALE ---
+        function triggerMassiveHeartBurst() {
+            const container = document.getElementById('floating-hearts-container');
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerHTML = ['❤️', '💖', '✨', '💕', '⭐'][Math.floor(Math.random() * 5)];
+                    heart.style.left = `${Math.random() * 95}%`;
+                    const size = Math.random() * 20 + 12;
+                    heart.style.fontSize = `${size}px`;
+                    const duration = Math.random() * 4 + 4;
+                    heart.style.animationDuration = `${duration}s`;
+                    container.appendChild(heart);
+                    setTimeout(() => heart.remove(), duration * 1000);
+                }, i * 150);
+            }
+        }
+
+        // --- INTERACTIVE TOUCH & CLICK PARTICLES ---
+        window.addEventListener('click', (e) => {
+            createTouchBurst(e.clientX, e.clientY);
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches[0]) {
+                createTouchBurst(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        function createTouchBurst(x, y) {
+            const symbols = ['❤️', '💖', '✨', '💫', '💕'];
+            const particleCount = 6;
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('touch-particle');
+                p.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                const destinationX = (Math.random() - 0.5) * 140;
+                const destinationY = (Math.random() - 0.5) * 140 - 30;
+                
+                p.style.setProperty('--tx', `${destinationX}px`);
+                p.style.setProperty('--ty', `${destinationY}px`);
+                
+                p.style.left = `${x}px`;
+                p.style.top = `${y}px`;
+                p.style.fontSize = `${Math.random() * 12 + 14}px`;
+
+                document.body.appendChild(p);
+
+                setTimeout(() => {
+                    p.remove();
+                }, 1000);
+            }
+        }
+
+        // --- RESTART EXPERIENCE ---
+        function restartExperience() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
